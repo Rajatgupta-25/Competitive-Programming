@@ -1,0 +1,48 @@
+import java.util.*;
+
+class HelloWorld {
+    static int N = 100001;
+    static int[] parent = new int[N];
+    static int[] size = new int[N];
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        int n = scan.nextInt();
+        int k = scan.nextInt();
+        for(int i=1; i<=n; i++){
+            make(i);
+        }
+        while(k-->0){
+            int u = scan.nextInt();
+            int v = scan.nextInt();
+            Union(u, v);
+        }
+        int count=0;
+        for(int i=1; i<=n; i++){
+            if(parent[i] == i)
+                count++;
+        }
+        System.out.println(count);
+    }
+    public static void make(int v){
+        parent[v] = v;
+        size[v] = 1;
+    }
+    public static int find(int v){
+        if(v == parent[v])
+            return v;
+        return parent[v] = find(parent[v]);
+    }
+    public static void Union(int a, int b){
+        a = find(a);
+        b = find(b);
+        if(a != b){
+            if(size[a] < size[b]){
+                int temp = a;
+                a = b;
+                b = temp;
+            }
+            parent[b] = a;
+            size[a] += size[b];
+        }
+    }
+}
